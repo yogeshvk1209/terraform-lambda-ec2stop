@@ -30,3 +30,11 @@ resource "aws_lambda_function" "lambda" {
   runtime = "python3.6"
   timeout = "30"
 }
+
+## Lambda Function permission for Cloudwatch Event ##
+resource "aws_lambda_permission" "cloudwatch_event" {
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda.function_name
+  principal     = "events.amazonaws.com"
+}

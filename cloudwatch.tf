@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_event_rule" "ec2stop-rule" {
     name = "ec2stop-rule"
-    description = "Fires every five minutes"
+    description = "Fires every Ten minutes"
     schedule_expression = "rate(10 minutes)"
 }
 
