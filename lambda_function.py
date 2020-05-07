@@ -8,9 +8,9 @@ def lambda_handler(event, context):
     logging.getLogger('botocore').setLevel(logging.INFO)
     client = boto3.client('ec2')
     ec2_regions = [region['RegionName'] for region in client.describe_regions()['Regions']]
-    logging.info('All Region: %s', ec2_regions)
+    logging.debug('All Region: %s', ec2_regions)
     for region in ec2_regions:
-        logging.info('This Region: %s', region)
+        logging.debug('This Region: %s', region)
         ec2 = boto3.resource('ec2',region_name=region)
         # Filter out All running instances
         running_filters = [
@@ -30,7 +30,7 @@ def lambda_handler(event, context):
         if len(instances_to_shutdown) > 0:
             # perform the shutdown
             shutting_down = ec2.instances.filter(InstanceIds=instances_to_shutdown).stop()
-            logging.WARN('Shutting Down instance: %s', shutting_down)
+            logging.info('Shutting Down instance: %s', shutting_down)
         else:
-            logging.info('No Running instances to shutdown')
+            logging.info('No Running instances to shutdown in this region')
             continue
